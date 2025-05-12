@@ -1,5 +1,5 @@
 // src/pages/Dashboard.tsx
-import React from 'react';
+//import React from 'react';
 import { 
   Box,
   Paper, 
@@ -65,7 +65,7 @@ const Dashboard = () => {
               outerRadius={100}
               label
             >
-              {assetData.map((entry, index) => (
+              {assetData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>

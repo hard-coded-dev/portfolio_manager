@@ -1,6 +1,6 @@
 // src/data/dummyData.ts
 import type { PortfolioSummary } from '../types/portfolio';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
+//import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 export const dummyPortfolio: PortfolioSummary = {
   totalValue: 150000,
@@ -51,18 +51,18 @@ export const dummyPortfolio: PortfolioSummary = {
   ]
 };
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28CFE', '#FF6699'];
+//const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28CFE', '#FF6699'];
 
-const assetData = dummyPortfolio.holdings.map((h) => ({
-  name: h.symbol,
-  value: h.totalValue,
-}));
+//const assetData = dummyPortfolio.holdings.map((h) => ({
+//  name: h.symbol,
+//  value: h.totalValue,
+//}));
 
 // Dummy performance data (replace with real data as needed)
-const performanceData = [
-  { month: 'Jan', value: 120000 },
-  { month: 'Feb', value: 125000 },
-  { month: 'Mar', value: 130000 },
-  { month: 'Apr', value: 140000 },
-  { month: 'May', value: 150000 },
-];
+//const performanceData = [
+//  { month: 'Jan', value: 120000 },
+//  { month: 'Feb', value: 125000 },
+//  { month: 'Mar', value: 130000 },
+//  { month: 'Apr', value: 140000 },
+//  { month: 'May', value: 150000 },
+//];
