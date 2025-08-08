@@ -1,47 +1,51 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import Transactions from "./pages/Transactions";
-import Holdings from "./pages/Holdings";
-import { AppBar, Toolbar, Tabs, Tab, Box } from "@mui/material";
-import { useState } from "react";
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Layout from './components/Layout';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Transactions from './pages/Transactions';
+import Holdings from './pages/Holdings';
+import PrivateRoute from './components/PrivateRoute';
 
-function NavTabs() {
-  const location = useLocation();
-  const [value, setValue] = useState(location.pathname);
-
-  // Update tab value when route changes
-  React.useEffect(() => {
-    setValue(location.pathname);
-  }, [location.pathname]);
-
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <Tabs value={value} onChange={(_, newValue) => setValue(newValue)} textColor="inherit" indicatorColor="secondary">
-          <Tab label="Dashboard" value="/" component={Link} to="/" />
-          <Tab label="Transactions" value="/transactions" component={Link} to="/transactions" />
-          <Tab label="Holdings" value="/holdings" component={Link} to="/holdings" />
-        </Tabs>
-      </Toolbar>
-    </AppBar>
-  );
-}
-
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
-      <NavTabs />
-      <Box sx={{ p: 2 }}>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/holdings" element={<Holdings />} />
-        </Routes>
-      </Box>
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Protected routes */}
+            <Route
+              path="/transactions"
+              element={
+                <PrivateRoute>
+                  <Transactions />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/holdings"
+              element={
+                <PrivateRoute>
+                  <Holdings />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </Router>
   );
-}
+};
 
 export default App;

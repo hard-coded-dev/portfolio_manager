@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth';
 import portfolioRoutes from './routes/portfolio';
+import transactionRoutes from './routes/transaction';
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +25,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/portfolios', portfolioRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // Basic route for testing
 app.get('/', (req: Request, res: Response) => {

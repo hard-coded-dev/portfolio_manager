@@ -24,6 +24,12 @@ export const register = async (req: Request<{}, {}, RegisterBody>, res: Response
   try {
     const { email, password, name } = req.body;
 
+    // Validate input
+    if (!email || !password || !name) {
+      res.status(400).json({ message: 'All fields are required' });
+      return;
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -51,14 +57,33 @@ export const register = async (req: Request<{}, {}, RegisterBody>, res: Response
         name: user.name
       }
     });
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating user' });
+  } catch (error: any) {
+    console.error('Registration error:', error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+      res.status(400).json({ 
+        message: 'Validation failed',
+        errors: validationErrors
+      });
+    } else if (error.code === 11000) {
+      res.status(400).json({ message: 'Email already exists' });
+    } else {
+      res.status(500).json({ message: 'Error creating user' });
+    }
   }
 };
 
 export const login = async (req: Request<{}, {}, LoginBody>, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      res.status(400).json({ message: 'Email and password are required' });
+      return;
+    }
 
     // Find user
     const user = await User.findOne({ email });
@@ -85,7 +110,8 @@ export const login = async (req: Request<{}, {}, LoginBody>, res: Response): Pro
         name: user.name
       }
     });
-  } catch (error) {
+  } catch (error: any) {
+    console.error('Login error:', error);
     res.status(500).json({ message: 'Error logging in' });
   }
 }; 
